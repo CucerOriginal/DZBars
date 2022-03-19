@@ -11,10 +11,10 @@ namespace ConsoleApp7
             Print print = new Print();
             Test test = new Test();
             print.youDelegate += test.TiChegoNadelal;
-            print.OnKeyPressed += CharPrint;
+            print.OnKeyPressed += CharPrint;//подписка на OnKeyPressed
             print.Run();
         }
-        static void CharPrint(object sender, char a)
+        static void CharPrint(object sender, char a)//вывод введенного символа 
         {
             Console.WriteLine($"Ты ввел {a}");
         }
@@ -33,7 +33,14 @@ namespace ConsoleApp7
                     youDelegate();
                     break;
                 }
-                OnKeyPressed?.Invoke(this, Convert.ToChar(a));
+                try
+                {
+                    OnKeyPressed?.Invoke(this, Convert.ToChar(a));
+                }
+                catch(FormatException)
+                {
+                    Console.WriteLine("Я тебя непонял, вводи только один символ");
+                }
             }
         }
     }
